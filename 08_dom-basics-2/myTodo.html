@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TODO List</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" 
+    crossorigin="anonymous">
+  <script defer src="toDoList.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let localArray = JSON.parse(localStorage.getItem('My case'));
+      createTodoApp(document.getElementById('todo-app'), 'My case', localArray);
+    });
+  </script>
+</head>
+<body>
+  <div class="container mb-5">
+    <nav class="nav">
+      <a href="myTodo.html" class="nav-link">My case</a>
+      <a href="dadTodo.html" class="nav-link">Dad case</a>
+      <a href="momTodo.html" class="nav-link">Mom case</a>
+    </nav>
+  </div>
+  <div id="todo-app" class="container"></div>
+</body>
+</html>
