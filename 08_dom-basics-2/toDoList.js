@@ -70,7 +70,7 @@
     let todoList = createTodoList();
 
     let localArray = [];
-    localArray = JSON.parse(localStorage.getItem(title));
+    localArray = JSON.parse(localStorage.getItem(title)) || [];
 
     let defaultArrMy = [
       {
@@ -156,12 +156,10 @@
       if (localArray !== null) {
         for (let b of localArray) {
           newArray.push(b);
-          console.log(b);
         }
       }
       for (let a of arrDef) {
         newArray.push(a);
-        console.log(a);
       }
       for (let i of newArray) {
         let preItem = createTodoItem(i.name);
@@ -194,7 +192,6 @@
       }
       localStorage.setItem(title, JSON.stringify(newArray));
       indexDef = 1;
-      console.log(indexDef);
     };
 
     //Добавление массива из локального хранилища
