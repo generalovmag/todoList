@@ -72,11 +72,134 @@
     let localArray = [];
     localArray = JSON.parse(localStorage.getItem(title));
 
+    let defaultArrMy = [
+      {
+        name: '123',
+        done: false,
+        id: 'item378',
+      },
+      {
+        name: '234',
+        done: false,
+        id: 'item379',
+      },
+      {
+        name: '345',
+        done: false,
+        id: 'item380',
+      },
+    ];
+    let indexDefArrMy = 0;
+    
+    let defaultArrDad = [
+      {
+        name: '456',
+        done: false,
+        id: 'item378',
+      },
+      {
+        name: '567',
+        done: false,
+        id: 'item379',
+      },
+      {
+        name: '678',
+        done: false,
+        id: 'item380',
+      },
+    ];
+    let indexDefArrDad = 0;
+
+    let defaultArrMom = [
+      {
+        name: '789',
+        done: false,
+        id: 'item378',
+      },
+      {
+        name: '890',
+        done: false,
+        id: 'item379',
+      },
+      {
+        name: '909',
+        done: false,
+        id: 'item380',
+      },
+    ];
+    let indexDefArrMom = 0;
+
     container.append(todoAppTitle);
     container.append(todoItemForm.form);
     container.append(todoList);
+    
+    //Проверка на наличие и добавление из дефолтного списка
 
+    let indexDef;
+    let arrDef;
+
+    if (title == 'My case') {
+      indexDef = indexDefArrMy;
+      arrDef = defaultArrMy;
+    }
+    if (title == 'Dad case') {
+      indexDef = indexDefArrDad;
+      arrDef = defaultArrDad;
+    }
+    if (title == 'Mom case') {
+      indexDef = indexDefArrMom;
+      arrDef = defaultArrMom;
+    }
+
+    if (arrDef !== null && indexDef == 0 && arr == null) {
+      let newArray = [];
+      if (localArray !== null) {
+        for (let b of localArray) {
+          newArray.push(b);
+          console.log(b);
+        }
+      }
+      for (let a of arrDef) {
+        newArray.push(a);
+        console.log(a);
+      }
+      for (let i of newArray) {
+        let preItem = createTodoItem(i.name);
+        todoList.append(preItem.item);
+        preItem.item.id = i.id;
+        if (i.done) {
+          preItem.item.classList.add('list-group-item-success');
+        };
+        preItem.doneBtn.addEventListener('click', function () {
+          preItem.item.classList.toggle('list-group-item-success');
+          localArray = JSON.parse(localStorage.getItem(title));
+          let newArr = localArray.map(e => {
+            if (e.id === preItem.item.id && e.done === false) {
+              e.done = true;
+            }else if (e.id === preItem.item.id && e.done === true) {
+              e.done = false;
+            };
+            return e; 
+          })
+          localStorage.setItem(title, JSON.stringify(newArr));
+        });
+        preItem.delBtn.addEventListener('click', function () {
+          if(confirm('Are you sure?')) {
+            preItem.item.remove();
+            localArray = JSON.parse(localStorage.getItem(title));
+            newArr = localArray.filter(i => i.id !== preItem.item.id);
+            localStorage.setItem(title, JSON.stringify(newArr));
+          }
+        })
+      }
+      localStorage.setItem(title, JSON.stringify(newArray));
+      indexDef = 1;
+      console.log(indexDef);
+    };
+
+    //Добавление массива из локального хранилища
     if (arr !== null) {
+      localArray = JSON.parse(localStorage.getItem(title));
       for (let i of arr) {
         let preItem = createTodoItem(i.name);
         todoList.append(preItem.item);
@@ -90,23 +213,23 @@
             if (e.id === preItem.item.id && e.done === false) {
               e.done = true;
             }else if (e.id === preItem.item.id && e.done === true) {
-                e.done = false;
+              e.done = false;
             };
             return e; 
-            })
-            localStorage.setItem(title, JSON.stringify(newArr));
+          })
+          localStorage.setItem(title, JSON.stringify(newArr));
         });
         preItem.delBtn.addEventListener('click', function () {
           if(confirm('Are you sure?')) {
             preItem.item.remove();
-            localArray = JSON.parse(localStorage.getItem(title));
             newArr = localArray.filter(i => i.id !== preItem.item.id);
             localStorage.setItem(title, JSON.stringify(newArr));
           }
         })
       }
     };
-
+    
+ 
     document.querySelector('.input').oninput = function btnDisabled() {
       if (document.querySelector('.input').value) {
         document.querySelector('.button').disabled = false;
@@ -141,7 +264,6 @@
       todoItem.delBtn.addEventListener('click', function () {
         if(confirm('Are you sure?')) {
           todoItem.item.remove();
-          localArray = JSON.parse(localStorage.getItem(title));
           newArr = localArray.filter(i => i.id !== todoItem.item.id);
           localStorage.setItem(title, JSON.stringify(newArr));
         }
